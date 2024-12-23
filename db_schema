@@ -1,0 +1,110 @@
+// Таблица пользователей
+Table users {
+  user_id integer [primary key]
+  username varchar
+  password_hash varchar
+  role varchar [note: 'Роль пользователя: Администратор, Аналитик, Оператор']
+  created_at timestamp
+}
+
+// Таблица сессий
+Table sessions {
+  session_id integer [primary key]
+  user_id integer [note: 'ID пользователя, запустившего сессию']
+  start_time timestamp
+  end_time timestamp
+  bandwidth_used float [note: 'Использованная полоса пропускания']
+  packet_count integer
+  status varchar [note: 'Статус сессии: активна, завершена и т.д.']
+}
+
+// Таблица сетевых узлов
+Table network_nodes {
+  node_id integer [primary key]
+  region_id integer [note: 'ID региона']
+  location varchar [note: 'Местоположение узла']
+  node_type varchar [note: 'Тип узла, например, вышка, маршрутизатор']
+  bandwidth_capacity float [note: 'Пропускная способность узла']
+}
+
+// Таблица регионов
+Table regions {
+  region_id integer [primary key]
+  region_name varchar [note: 'Название региона']
+  description text
+}
+
+// Таблица типов устройств
+Table device_types {
+  device_type_id integer [primary key]
+  type_name varchar [note: 'Тип устройства, например, смартфон, маршрутизатор']
+  description text
+}
+
+// Таблица метрик
+Table metrics {
+  metric_id integer [primary key]
+  metric_name varchar [note: 'Название метрики, например, потеря пакетов, задержка']
+  threshold float [note: 'Пороговое значение для метрики']
+}
+
+// Таблица событий
+Table events {
+  event_id integer [primary key]
+  session_id integer [note: 'ID сессии, связанной с событием']
+  metric_id integer [note: 'ID метрики, связанной с событием']
+  timestamp timestamp
+  severity varchar [note: 'Уровень серьезности события']
+  description text
+}
+
+// Таблица статистики трафика
+Table traffic_statistics {
+  stat_id integer [primary key]
+  node_id integer [note: 'ID сетевого узла']
+  timestamp timestamp
+  incoming_traffic float [note: 'Объем входящего трафика']
+  outgoing_traffic float [note: 'Объем исходящего трафика']
+  packet_loss float [note: 'Потеря пакетов в процентах']
+  latency integer [note: 'Задержка в миллисекундах']
+}
+
+// Таблица оповещений
+Table alerts {
+  alert_id integer [primary key]
+  event_id integer [note: 'ID события, вызвавшего оповещение']
+  alert_type varchar [note: 'Тип оповещения']
+  alert_message text
+  is_resolved boolean [default: false]
+  resolved_at timestamp
+}
+
+// Таблица настроек оповещений
+Table alert_settings {
+  setting_id integer [primary key]
+  metric_id integer [note: 'ID метрики, для которой настроено оповещение']
+  threshold float [note: 'Пороговое значение для срабатывания оповещения']
+  severity_level varchar [note: 'Уровень серьезности оповещения']
+  enabled boolean [default: true]
+}
+
+// Таблица логов
+Table logs {
+  log_id integer [primary key]
+  session_id integer [note: 'ID сессии']
+  event_id integer [note: 'ID события']
+  timestamp timestamp
+  log_message text [note: 'Описание лог-сообщения']
+  severity varchar
+}
+
+// Связи между таблицами
+Ref: sessions.user_id > users.user_id // Сессии связаны с пользователями
+Ref: events.session_id > sessions.session_id // События связаны с сессиями
+Ref: events.metric_id > metrics.metric_id // События связаны с метриками
+Ref: traffic_statistics.node_id > network_nodes.node_id // Статистика трафика связана с сетевыми узлами
+Ref: network_nodes.region_id > regions.region_id // Сетевые узлы связаны с регионами
+Ref: alerts.event_id > events.event_id // Оповещения связаны с событиями
+Ref: alert_settings.metric_id > metrics.metric_id // Настройки оповещений связаны с метриками
+Ref: logs.session_id > sessions.session_id // Логи связаны с сессиями
+Ref: logs.event_id > events.event_id // Логи связаны с событиями

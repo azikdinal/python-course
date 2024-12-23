@@ -1,0 +1,34 @@
+url='http://localhost:5000'
+
+# /users
+request_users="$url/users"                 # Ссылка запроса
+response_users=$(curl -s "$request_users") # Присваивание ответа от сервера переменной
+
+if echo "$response_users" | grep "users" > /dev/null; then
+    echo -e "\033[32mTEST 1 PASSED!
+    $request_users -> $response_users
+    \033[0m"
+else
+    echo -e "\033[31mTEST 1 FAILED!
+        $request_users -> $response_users
+    \033[0m"
+fi
+
+
+# /users/<int:user_id>
+user_id=12341                                     # id пользователя
+request_user_id="$url/users/$user_id"             # Ссылка запроса
+response_user_id=$(curl -s "$request_user_id")    # Присваивание ответа от сервера переменной
+
+echo "TEST 1 Endpoint $request_user_id"
+
+if echo "$response_users" | grep "user with $user_id id" > /dev/null; then
+    echo -e "\033[32mPASSED!
+    $request_user_id -> $response_user_id
+    \033[0m"
+else
+    echo -e "\033[31mFAILED!
+        expected $request_user_id -> user with $user_id id
+        got      $request_user_id -> $response_user_id
+    \033[0m"
+fi

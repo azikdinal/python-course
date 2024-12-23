@@ -1,0 +1,7 @@
+FROM postgres:latest
+
+ENV POSTGRES_USER=flask
+ENV POSTGRES_PASSWORD=flask
+ENV POSTGRES_DB=flask
+
+EXPOSE 5432
