@@ -1,4 +1,14 @@
-url='http://localhost:5000'
+#!/bin/bash
+
+# объявление переменных окружения
+if [ -f .env ]; then
+    source .env
+else
+    echo ".env file not found!"
+    exit 1
+fi
+
+url=$API_URL
 
 # /users
 request_users="$url/users"                 # Ссылка запроса
@@ -20,15 +30,18 @@ user_id=12341                                     # id пользователя
 request_user_id="$url/users/$user_id"             # Ссылка запроса
 response_user_id=$(curl -s "$request_user_id")    # Присваивание ответа от сервера переменной
 
-echo "TEST 1 Endpoint $request_user_id"
+# ожидаемый ответ запроса
+expected="user with $user_id id"
 
-if echo "$response_users" | grep "user with $user_id id" > /dev/null; then
+echo "TEST 2 $request_user_id"
+
+if [ "$response_user_id" = "$expected" ]; then
     echo -e "\033[32mPASSED!
     $request_user_id -> $response_user_id
     \033[0m"
 else
     echo -e "\033[31mFAILED!
-        expected $request_user_id -> user with $user_id id
+        expected $request_user_id -> $expected
         got      $request_user_id -> $response_user_id
     \033[0m"
 fi
