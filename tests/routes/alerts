@@ -1,3 +1,39 @@
 #!/bin/bash
 
+# TODO вставить ENVIRONMENT вместо var
+url="localhost:5000"
 
+# /alerts
+request_alerts="$url/alerts"                 # Ссылка запроса
+response_alerts=$(curl -s "$request_alerts") # Присваивание ответа от сервера переменной
+
+if [ "$response_alerts" = "all alerts" ]; then
+    echo -e "\033[32mTEST 1 PASSED!
+    $request_alerts -> $response_alerts
+    \033[0m"
+else
+    echo -e "\033[31mTEST 1 FAILED!
+        $request_alerts -> $response_alerts
+    \033[0m"
+fi
+
+
+# /alerts?id=####
+alert_id="1231"                                        # id настройки алерта
+request_alert_id="$url/alerts?id=$alert_id"            # Ссылка запроса
+response_alert_id=$(curl -s "$request_alert_id")       # Присваивание ответа от сервера переменной
+
+# ожидаемый ответ запроса
+expected="alert with $alert_id id"
+
+echo "TEST 2 $request_alert_id"
+
+if [ "$response_alert_id" = "$expected" ]; then
+    echo -e "\033[32mPASSED!
+    $request_alert_id -> $response_alert_id
+    \033[0m"
+else
+    echo -e "\033[31mFAILED!
+        got      $request_alert_id -> $response_alert_id
+    \033[0m"
+fi

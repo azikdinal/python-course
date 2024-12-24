@@ -6,7 +6,7 @@ def get_traffic_statictics():
     # вернуть данные статистики с указанным id
     if 'id' in request.args:
         traffic_statictic_id = request.args.get('id')
-        return f"traffic statictic with {traffic_statictic_id} id"
+        return f"traffic statistic with {traffic_statictic_id} id"
     # если нет аргумента, вернуть все статистические данные
     else:
-        return "traffic statictics"
+        return "all traffic statictics"

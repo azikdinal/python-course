@@ -1,3 +1,39 @@
 #!/bin/bash
 
+# TODO вставить ENVIRONMENT вместо var
+url="localhost:5000"
 
+# /alert_settings
+request_alert_settings="$url/alert_settings"                 # Ссылка запроса
+response_alert_settings=$(curl -s "$request_alert_settings") # Присваивание ответа от сервера переменной
+
+if [ "$response_alert_settings" = "all alert settings" ]; then
+    echo -e "\033[32mTEST 1 PASSED!
+    $request_alert_settings -> $response_alert_settings
+    \033[0m"
+else
+    echo -e "\033[31mTEST 1 FAILED!
+        $request_alert_settings -> $response_alert_settings
+    \033[0m"
+fi
+
+
+# /alert_settings?id=####
+alert_setting_id="1231"                                                # id настройки алерта
+request_alert_setting_id="$url/alert_settings?id=$alert_setting_id"    # Ссылка запроса
+response_alert_setting_id=$(curl -s "$request_alert_setting_id")       # Присваивание ответа от сервера переменной
+
+# ожидаемый ответ запроса
+expected="alert setting with $alert_setting_id id"
+
+echo "TEST 2 $request_alert_setting_id"
+
+if [ "$response_alert_setting_id" = "$expected" ]; then
+    echo -e "\033[32mPASSED!
+    $request_alert_setting_id -> $response_alert_setting_id
+    \033[0m"
+else
+    echo -e "\033[31mFAILED!
+        got      $request_alert_setting_id -> $response_alert_setting_id
+    \033[0m"
+fi

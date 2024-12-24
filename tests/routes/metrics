@@ -1,3 +1,39 @@
 #!/bin/bash
 
+# TODO вставить ENVIRONMENT вместо var
+url="localhost:5000"
 
+# /metrics
+request_metrics="$url/metrics"                 # Ссылка запроса
+response_metrics=$(curl -s "$request_metrics") # Присваивание ответа от сервера переменной
+
+if [ "$response_metrics" = "all metrics" ]; then
+    echo -e "\033[32mTEST 1 PASSED!
+    $request_metrics -> $response_metrics
+    \033[0m"
+else
+    echo -e "\033[31mTEST 1 FAILED!
+        $request_metrics -> $response_metrics
+    \033[0m"
+fi
+
+
+# /metrics?id=####
+metric_id="1231"                                        # id настройки алерта
+request_metric_id="$url/metrics?id=$metric_id"            # Ссылка запроса
+response_metric_id=$(curl -s "$request_metric_id")       # Присваивание ответа от сервера переменной
+
+# ожидаемый ответ запроса
+expected="metric with $metric_id id"
+
+echo "TEST 2 $request_metric_id"
+
+if [ "$response_metric_id" = "$expected" ]; then
+    echo -e "\033[32mPASSED!
+    $request_metric_id -> $response_metric_id
+    \033[0m"
+else
+    echo -e "\033[31mFAILED!
+        got      $request_metric_id -> $response_metric_id
+    \033[0m"
+fi

@@ -5,8 +5,8 @@ from flask import request
 def get_alerts():
     # вернуть алерт с указанным id
     if 'id' in request.args:
-        device_type_id = request.args.get('id')
-        return f"event with {device_type_id} id"
+        alert_id = request.args.get('id')
+        return f"alert with {alert_id} id"
     # если нет аргумента, вернуть данные всех алертов
     else:
         return "all alerts"

@@ -7,6 +7,7 @@ url="localhost:5000"
 request_users="$url/users"                 # Ссылка запроса
 response_users=$(curl -s "$request_users") # Присваивание ответа от сервера переменной
 
+# TODO переделать сдесь должно быть условие
 if echo "$response_users" | grep "users" > /dev/null; then
     echo -e "\033[32mTEST 1 PASSED!
     $request_users -> $response_users
@@ -19,7 +20,7 @@ fi
 
 
 # /users?name=####
-user_name="Alex"                                         # id пользователя
+user_name="Alex"                                         # имя пользователя
 request_user_name="$url/users?name=$user_name"           # Ссылка запроса
 response_user_name=$(curl -s "$request_user_name")       # Присваивание ответа от сервера переменной
 

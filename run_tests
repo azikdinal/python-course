@@ -1,47 +1,13 @@
 #!/bin/bash
 
-# объявление переменных окружения
-if [ -f .env ]; then
-    source .env
-else
-    echo ".env file not found!"
-    exit 1
-fi
-
-url=$API_URL
-
-# /users
-request_users="$url/users"                 # Ссылка запроса
-response_users=$(curl -s "$request_users") # Присваивание ответа от сервера переменной
-
-if echo "$response_users" | grep "users" > /dev/null; then
-    echo -e "\033[32mTEST 1 PASSED!
-    $request_users -> $response_users
-    \033[0m"
-else
-    echo -e "\033[31mTEST 1 FAILED!
-        $request_users -> $response_users
-    \033[0m"
-fi
-
-
-# /users/<int:user_id>
-user_id=12341                                     # id пользователя
-request_user_id="$url/users/$user_id"             # Ссылка запроса
-response_user_id=$(curl -s "$request_user_id")    # Присваивание ответа от сервера переменной
-
-# ожидаемый ответ запроса
-expected="user with $user_id id"
-
-echo "TEST 2 $request_user_id"
-
-if [ "$response_user_id" = "$expected" ]; then
-    echo -e "\033[32mPASSED!
-    $request_user_id -> $response_user_id
-    \033[0m"
-else
-    echo -e "\033[31mFAILED!
-        expected $request_user_id -> $expected
-        got      $request_user_id -> $response_user_id
-    \033[0m"
-fi
+./tests/routes/alert_settings
+./tests/routes/alerts
+./tests/routes/device_types
+./tests/routes/events
+./tests/routes/logs
+./tests/routes/metrics
+./tests/routes/network_nodes
+./tests/routes/regions
+./tests/routes/sessions
+./tests/routes/traffic_statictics
+./tests/routes/users

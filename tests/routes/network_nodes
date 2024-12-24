@@ -1,3 +1,39 @@
 #!/bin/bash
 
+# TODO вставить ENVIRONMENT вместо var
+url="localhost:5000"
 
+# /network_nodes
+request_network_nodes="$url/network_nodes"                 # Ссылка запроса
+response_network_nodes=$(curl -s "$request_network_nodes") # Присваивание ответа от сервера переменной
+
+if [ "$response_network_nodes" = "all network nodes" ]; then
+    echo -e "\033[32mTEST 1 PASSED!
+    $request_network_nodes -> $response_network_nodes
+    \033[0m"
+else
+    echo -e "\033[31mTEST 1 FAILED!
+        $request_network_nodes -> $response_network_nodes
+    \033[0m"
+fi
+
+
+# /network_nodes?id=####
+network_node_id="1231"                                        # id настройки алерта
+request_network_node_id="$url/network_nodes?id=$network_node_id"            # Ссылка запроса
+response_network_node_id=$(curl -s "$request_network_node_id")       # Присваивание ответа от сервера переменной
+
+# ожидаемый ответ запроса
+expected="network node with $network_node_id id"
+
+echo "TEST 2 $request_network_node_id"
+
+if [ "$response_network_node_id" = "$expected" ]; then
+    echo -e "\033[32mPASSED!
+    $request_network_node_id -> $response_network_node_id
+    \033[0m"
+else
+    echo -e "\033[31mFAILED!
+        got      $request_network_node_id -> $response_network_node_id
+    \033[0m"
+fi

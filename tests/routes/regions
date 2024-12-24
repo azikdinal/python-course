@@ -1,3 +1,39 @@
 #!/bin/bash
 
+# TODO вставить ENVIRONMENT вместо var
+url="localhost:5000"
 
+# /regions
+request_regions="$url/regions"                 # Ссылка запроса
+response_regions=$(curl -s "$request_regions") # Присваивание ответа от сервера переменной
+
+if [ "$response_regions" = "all regions" ]; then
+    echo -e "\033[32mTEST 1 PASSED!
+    $request_regions -> $response_regions
+    \033[0m"
+else
+    echo -e "\033[31mTEST 1 FAILED!
+        $request_regions -> $response_regions
+    \033[0m"
+fi
+
+
+# /regions?id=####
+region_id="1231"                                        # id настройки алерта
+request_region_id="$url/regions?id=$region_id"            # Ссылка запроса
+response_region_id=$(curl -s "$request_region_id")       # Присваивание ответа от сервера переменной
+
+# ожидаемый ответ запроса
+expected="region with $region_id id"
+
+echo "TEST 2 $request_region_id"
+
+if [ "$response_region_id" = "$expected" ]; then
+    echo -e "\033[32mPASSED!
+    $request_region_id -> $response_region_id
+    \033[0m"
+else
+    echo -e "\033[31mFAILED!
+        got      $request_region_id -> $response_region_id
+    \033[0m"
+fi

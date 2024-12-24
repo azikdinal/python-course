@@ -1,3 +1,39 @@
 #!/bin/bash
 
+# TODO вставить ENVIRONMENT вместо var
+url="localhost:5000"
 
+# /events
+request_events="$url/events"                 # Ссылка запроса
+response_events=$(curl -s "$request_events") # Присваивание ответа от сервера переменной
+
+if [ "$response_events" = "all events" ]; then
+    echo -e "\033[32mTEST 1 PASSED!
+    $request_events -> $response_events
+    \033[0m"
+else
+    echo -e "\033[31mTEST 1 FAILED!
+        $request_events -> $response_events
+    \033[0m"
+fi
+
+
+# /events?id=####
+event_id="1231"                                        # id настройки алерта
+request_event_id="$url/events?id=$event_id"            # Ссылка запроса
+response_event_id=$(curl -s "$request_event_id")       # Присваивание ответа от сервера переменной
+
+# ожидаемый ответ запроса
+expected="event with $event_id id"
+
+echo "TEST 2 $request_event_id"
+
+if [ "$response_event_id" = "$expected" ]; then
+    echo -e "\033[32mPASSED!
+    $request_event_id -> $response_event_id
+    \033[0m"
+else
+    echo -e "\033[31mFAILED!
+        got      $request_event_id -> $response_event_id
+    \033[0m"
+fi

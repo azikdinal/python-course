@@ -1,3 +1,39 @@
 #!/bin/bash
 
+# TODO вставить ENVIRONMENT вместо var
+url="localhost:5000"
 
+# /traffic_statistics
+request_traffic_statistics="$url/traffic_statictics"                 # Ссылка запроса
+response_traffic_statistics=$(curl -s "$request_traffic_statistics") # Присваивание ответа от сервера переменной
+
+if [ "$response_traffic_statistics" = "all traffic statictics" ]; then
+    echo -e "\033[32mTEST 1 PASSED!
+    $request_traffic_statistics -> $response_traffic_statistics
+    \033[0m"
+else
+    echo -e "\033[31mTEST 1 FAILED!
+        $request_traffic_statistics -> $response_traffic_statistics
+    \033[0m"
+fi
+
+
+# /traffic_statistics?id=####
+traffic_statistic_id="1231"                                        # id настройки алерта
+request_traffic_statistic_id="$url/traffic_statictics?id=$traffic_statistic_id"            # Ссылка запроса
+response_traffic_statistic_id=$(curl -s "$request_traffic_statistic_id")       # Присваивание ответа от сервера переменной
+
+# ожидаемый ответ запроса
+expected="traffic statistic with $traffic_statistic_id id"
+
+echo "TEST 2 $request_traffic_statistic_id"
+
+if [ "$response_traffic_statistic_id" = "$expected" ]; then
+    echo -e "\033[32mPASSED!
+    $request_traffic_statistic_id -> $response_traffic_statistic_id
+    \033[0m"
+else
+    echo -e "\033[31mFAILED!
+        got      $request_traffic_statistic_id -> $response_traffic_statistic_id
+    \033[0m"
+fi
