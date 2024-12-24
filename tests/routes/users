@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# TODO вставить ENVIRONMENT вместо var
+url="localhost:5000"
+
+# /users
+request_users="$url/users"                 # Ссылка запроса
+response_users=$(curl -s "$request_users") # Присваивание ответа от сервера переменной
+
+if echo "$response_users" | grep "users" > /dev/null; then
+    echo -e "\033[32mTEST 1 PASSED!
+    $request_users -> $response_users
+    \033[0m"
+else
+    echo -e "\033[31mTEST 1 FAILED!
+        $request_users -> $response_users
+    \033[0m"
+fi
+
+
+# /users?name=####
+user_name="Alex"                                         # id пользователя
+request_user_name="$url/users?name=$user_name"           # Ссылка запроса
+response_user_name=$(curl -s "$request_user_name")       # Присваивание ответа от сервера переменной
+
+# ожидаемый ответ запроса
+expected="user with $user_name name"
+
+echo "TEST 2 $request_user_name"
+
+if [ "$response_user_name" = "$expected" ]; then
+    echo -e "\033[32mPASSED!
+    $request_user_name -> $response_user_name
+    \033[0m"
+else
+    echo -e "\033[31mFAILED!
+        got      $request_user_name -> $response_user_name
+    \033[0m"
+fi
