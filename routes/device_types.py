@@ -1,9 +1,13 @@
 from __main__ import app
+from flask import request
 
 @app.route("/device_types")
 def get_device_types():
-    return "device_types"
-
-@app.route("/device_types/<int:device_type_id>")
-def get_device_type(device_type_id):
-    return f"device_types with {device_type_id} id"
+    # вернуть тип устройства с указанным id
+    if 'id' in request.args:
+        device_type_id = request.args.get('id')
+        return f"device_type with {device_type_id} id"
+    # если нет аргумента, вернуть данные всех типов устройств
+    else:
+        return "all device types"
+    

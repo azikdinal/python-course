@@ -1,17 +1,12 @@
 from __main__ import app
-
-@app.route("/metrics")
-def get_metrics():
-    return "metrics"
-
 from flask import request
 
 @app.route("/metrics")
-def get_network_nodes():
-    # вернуть узел сети с указанным id
+def get_metrics():
+    # вернуть метрику с указанным id
     if 'id' in request.args:
         metric_id = request.args.get('id')
-        return f"region with {metric_id} id"
-    # если нет аргумента, вернуть данные всех узлов сети
+        return f"metric with {metric_id} id"
+    # если нет аргумента, вернуть данные метрик
     else:
-        return "all regions"
+        return "all metrics"

@@ -9,4 +9,4 @@ def get_sessions():
         return f"session with {session_id} id"
     # если нет аргумента, вернуть данные всех сессий
     else:
-        return "sessions"
+        return "all sessions"

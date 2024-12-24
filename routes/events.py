@@ -1,10 +1,15 @@
 from __main__ import app
+from flask import request
 
 @app.route("/events")
 def get_events():
-    return "events"
+    # вернуть событие с указанным id
+    if 'id' in request.args:
+        event_id = request.args.get('id')
+        return f"event with {event_id} id"
+    # если нет аргумента, вернуть данные всех событий
+    else:
+        return "all events"
+    
 
-
-@app.route("/device_types/<int:event_id>")
-def event(event_id):
-    return f"event with {event_id} id"
+# Отбор событий в промежутке времени TODO
