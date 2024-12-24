@@ -6,3 +6,10 @@ services:
     environment:
       POSTGRES_USER=${DB_USER}
       POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "5432:5432" # порт деплоя
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Для постоянного хранения данных
+
+volumes:
+  postgres_data:  # Определение тома для хранения данных
