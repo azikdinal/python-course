@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+# скрипт для быстрого пуша
 git add .
 git commit -m update
 git push
