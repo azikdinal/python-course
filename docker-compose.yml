@@ -1,13 +1,16 @@
-version: 3.8
+version: "3.8"
 
 services:
   db:
-    build: .
+    image: postgres:latest # последняя версия postgresql образа
+    container_name: postgres_flask # название контейнера
+    hostname: ${DB_HOSTNAME}
     environment:
-      POSTGRES_USER=${DB_USER}
-      POSTGRES_PASSWORD=${DB_PASSWORD}
+      POSTGRES_DB:       ${DB_NAME}            # название БД
+      POSTGRES_USER:     ${DB_USERNAME}          # имя пользователя
+      POSTGRES_PASSWORD: ${DB_PASSWORD}  # пароль пользователя
     ports:
-      - "5432:5432" # порт деплоя
+      - "${DB_PORT}:5432" # порт деплоя
     volumes:
       - postgres_data:/var/lib/postgresql/data  # Для постоянного хранения данных
 
