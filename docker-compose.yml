@@ -13,11 +13,17 @@ services:
       - "${DB_PORT}:5432" # порт деплоя
     volumes:
       - postgres_data:/var/lib/postgresql/data  # Для постоянного хранения данных
+  
   traffic_manager:
-    image: python:3.10-slim
+    image: python:3.10-slim  # Use the official Python image
     working_dir: /app
-    hostname: ${BACKEND_URL}
-    environment:
+    volumes:
+      - ./flask-app:/app  # Mount your Flask app directory
+    command: >
+      sh -c "pip install --no-cache-dir -r requirements.txt &&
+             python app.py"
+    ports:
+      - "5000:5000"
 
 
 
