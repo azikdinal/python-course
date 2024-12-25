@@ -17,7 +17,9 @@ connection = psycopg2.connect(
 cursor = connection.cursor()
 
 cursor.execute("SELECT * from users;")
+cursor.fetchone()
+
 
 # Закрыть соединение с БД
 cursor.close()
-connection.close()
+connection.close()  
