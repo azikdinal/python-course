@@ -1,0 +1,2 @@
+#!/bin/bash
+psql -d flask -U flask -h localhost
