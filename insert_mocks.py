@@ -3,7 +3,6 @@ from faker import Faker
 import random
 from datetime import datetime, timedelta
 
-# Подключение к базе данных
 connection = psycopg2.connect(
     dbname="flask",
     user="flask",
@@ -13,10 +12,8 @@ connection = psycopg2.connect(
 )
 cursor = connection.cursor()
 
-# Инициализация Faker
 fake = Faker()
 
-# Функции генерации данных
 def generate_users(num_users):
     roles = ["Администратор", "Аналитик", "Оператор"]
     users = []
