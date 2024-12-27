@@ -22,8 +22,9 @@ services:
     command: >
       sh -c "pip install --no-cache-dir -r requirements.txt &&
              python app.py"
+    hostname: ${BACKEND_HOSTNAME}
     ports:
-      - "5000:5000"
+      - "${BACKEND_PORT}:5000"
 
 
 
