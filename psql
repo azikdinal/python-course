@@ -1,2 +1,4 @@
 #!/bin/bash
+
+# простая команда для подключения к psql
 psql -d flask -U flask -h localhost

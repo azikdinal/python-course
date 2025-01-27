@@ -6,4 +6,4 @@ pip install -R requirements.txt
 
 
 # запустить приложение
-python3 app.py
+python3 app/app.py
